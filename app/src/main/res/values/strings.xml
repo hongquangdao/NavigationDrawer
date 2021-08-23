@@ -8,4 +8,8 @@
     <string name="Nav_change_Password">Change Password</string>
     <string name="Nav_open">Open navigation drawer</string>
     <string name="Nav_close">Close navigation drawer</string>
+
+    <string name="menu_search">Search</string>
+    <string name="menu_settings">Setting</string>
+    <string name="menu_navigation">Navigation</string>
 </resources>

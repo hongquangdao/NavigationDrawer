@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private int FRAGMENT_CURRENT = FRAGMENT_HOME;
     private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitleBar();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -49,16 +51,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         replaceFragment(new Home_fragment());
         navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         int id = item.getItemId();
         if (id == R.id.nav_home) {
             if (FRAGMENT_CURRENT != FRAGMENT_HOME) {
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
+        setTitleBar();
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -104,5 +107,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void setTitleBar() {
+        String title = "";
+        switch (FRAGMENT_CURRENT) {
+            case FRAGMENT_HOME:
+                title = getString(R.string.Nav_home);
+                break;
+            case FRAGMENT_FAVORITE:
+                title = getString(R.string.Nav_favorite);
+                break;
+            case FRAGMENT_HISTORY:
+                title = getString(R.string.Nav_history);
+                break;
+
+            case FRAGMENT_PROFILE:
+                title = getString(R.string.Nav_profile);
+                break;
+
+            case FRAGMENT_CHANGE_PASSWORD:
+                title = getString(R.string.Nav_change_Password);
+                break;
+        }
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle(title);
+        }
     }
 }
