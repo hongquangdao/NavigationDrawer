@@ -17,6 +17,8 @@ import com.example.navigationdrawer.Fragment.Favorite_fragment;
 import com.example.navigationdrawer.Fragment.History_fragment;
 import com.example.navigationdrawer.Fragment.Home_fragment;
 import com.example.navigationdrawer.Fragment.Profile_fragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int FRAGMENT_CURRENT = FRAGMENT_HOME;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private BottomNavigationView mBottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +56,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         replaceFragment(new Home_fragment());
         navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+
+        mBottomNavigationView = findViewById(R.id.bottom_nav);
+        mBottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_search:
+                        replaceFragment(new Home_fragment());
+                        break;
+
+                    case R.id.action_settings:
+                        replaceFragment(new Favorite_fragment());
+                        break;
+
+                    case R.id.action_navigation:
+                        replaceFragment(new History_fragment());
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -131,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
     }
